@@ -1,24 +1,34 @@
 <?php
 	class FindHyperLink{
+		
 		function findLinks($fileContent){
-			$files = file_get_Contents($fileContent);
-			$count = 0;
-			for($i=0;$i<strlen($files);$i++){
-				if(strcmp($files[$i],'<')==0){
-					while(strcmp($files[$i],'h')!==0){
-					 	$i++;
-					}
-						if(strcmp($files[$i+3],'f')==0 && (strcmp($files[$i+2],'e'))==0 &&(strcmp($files[$i+1],'r'))==0){
-							$i=$i+6; 
-							while(strcmp($files[$i],'"')!==0){ 
-								echo $files[$i];
-								$i++;
-							}
-							$count++;
-							echo "\n";
-						}
+			$i=0;
+#			$file = file_get_contents($fileContent);
+#			$str = explode('\n',$file);
+			$file = fopen($fileContent,'r');
+			
+#			var_dump();
+			while(! feof($file)){
+				
+				$str = fgets($file);
+				if(strpos($str,"href=")){
+					$i++;
+					$count = strpos($str,"href=");
+#					echo $count;
+					$count+= 6;
+					
+					while(strcmp($str[$count],'"')!==0){
+						
+						echo $str[$count];
+						$count++;
+
+					}	
+				
+					echo "\n";				
+
 				}
 			}
-			echo $count;
-		}
+		echo "\n\n$i \n\n";
+		}	
 	}
+
